@@ -1,4 +1,6 @@
 const queryTrigger = require('./triggers/query');
+const orgWorkspaceTrigger = require('./triggers/orgWorkspace');
+const userConnectionTrigger = require('./triggers/userConnection');
 const authentication = require('./authentication');
 const { handleHTTPError } = require('./triggers/error-handler');
 
@@ -30,11 +32,15 @@ const App = {
   // If you want your trigger to show up, you better include it here!
   triggers: {
     [queryTrigger.key]: queryTrigger,
+    [orgWorkspaceTrigger.key]: orgWorkspaceTrigger,
+    [userConnectionTrigger.key]: userConnectionTrigger
   },
 
   // If you want your searches to show up, you better include it here!
   searches: {
     [queryTrigger.key]: queryTrigger,
+    [orgWorkspaceTrigger.key]: orgWorkspaceTrigger,
+    [userConnectionTrigger.key]: userConnectionTrigger
   },
 
   // If you want your creates to show up, you better include it here!
