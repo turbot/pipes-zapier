@@ -12,11 +12,11 @@ describe("query trigger", () => {
   it("should get a query", (done) => {
     const bundle = {
       authData: {
-        token: process.env.STEAMPIPE_CLOUD_TOKEN,
-        handle: process.env.STEAMPIPE_USER_HANDLE,
-        workspace: process.env.STEAMPIPE_WORKSPACE
+        token: process.env.STEAMPIPE_CLOUD_TOKEN
       },
       inputData: {
+        workspace_handle: process.env.STEAMPIPE_WORKSPACE,
+        user_handle: process.env.STEAMPIPE_USER_HANDLE,
         query: "select arn, name from aws_s3_bucket limit 2;"
       },
     };

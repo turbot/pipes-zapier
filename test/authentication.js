@@ -10,9 +10,7 @@ describe("basic authentication", () => {
   it("should authenticate", (done) => {
     const bundle = {
       authData: {
-        token: process.env.STEAMPIPE_CLOUD_TOKEN,
-        handle: process.env.STEAMPIPE_USER_HANDLE,
-        workspace: process.env.STEAMPIPE_WORKSPACE
+        token: process.env.STEAMPIPE_CLOUD_TOKEN
       },
     };
 

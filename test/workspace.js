@@ -6,19 +6,17 @@ const zapier = require("zapier-platform-core");
 const App = require("../index");
 const appTester = zapier.createAppTester(App);
 
-describe("organization workspace trigger", () => {
+describe("record trigger", () => {
   zapier.tools.env.inject();
 
-  it("should get a workspace", (done) => {
+  it("should get a record", (done) => {
     const bundle = {
       authData: {
-        token: process.env.STEAMPIPE_CLOUD_TOKEN,
+        token: process.env.STEAMPIPE_CLOUD_TOKEN
       },
-      inputData: {
-        organization: process.env.STEAMPIPE_ORG_HANDLE,
-      },
+      inputData: {},
     };
-    appTester(App.triggers.orgWorkspace.operation.perform, bundle)
+    appTester(App.triggers.workspace.operation.perform, bundle)
       .then((response) => {
         response.should.be.an.instanceOf(Array);
         done();

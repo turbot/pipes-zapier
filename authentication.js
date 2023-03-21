@@ -5,25 +5,22 @@ const authentication = {
   },
   fields: [
     {
-      key: "token",
-      type: "string",
+      key: 'token',
+      type: 'string',
       required: true,
-      helpText: "Your Steampipe Cloud [API token](https://steampipe.io/docs/cloud/profile#api-tokens).",
+      label: 'Token',
+      helpText: 'Your Steampipe Cloud [API token](https://steampipe.io/docs/cloud/profile#api-tokens).',
     },
     {
-      key: "handle",
+      key: "cloud_host",
       type: "string",
-      required: true,
-      helpText: "Your Steampipe Cloud [User handle](https://steampipe.io/docs/cloud/profile#updating-your-user-handle).",
-    },
-    {
-      key: "workspace",
-      type: "string",
-      required: true,
-      helpText: "Your Steampipe Cloud [Workspace](https://steampipe.io/docs/cloud/workspaces).",
-    },
+      required: false,
+      label: 'Cloud Host',
+      default: 'cloud.steampipe.io',
+      helpText: "Your Steampipe Cloud [Host](https://steampipe.io/docs/reference/env-vars/steampipe_cloud_host).",
+    }
   ],
-  connectionLabel: '{{handle}} - {{workspace}}'
+  connectionLabel: '{{display_name}} - {{handle}}'
 };
 
 module.exports = authentication;
