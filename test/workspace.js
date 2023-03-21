@@ -6,10 +6,10 @@ const zapier = require("zapier-platform-core");
 const App = require("../index");
 const appTester = zapier.createAppTester(App);
 
-describe("record trigger", () => {
+describe("workspace trigger", () => {
   zapier.tools.env.inject();
 
-  it("should get a record", (done) => {
+  it("should get a workspace", (done) => {
     const bundle = {
       authData: {
         token: process.env.STEAMPIPE_CLOUD_TOKEN

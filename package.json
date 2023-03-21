@@ -1,6 +1,6 @@
 {
   "name": "steampipe-cloud-zapier",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Steampipe Cloud app for the Zapier platform.",
   "repository": "turbot/steampipe-cloud-zapier",
   "homepage": "https://steampipe.io",

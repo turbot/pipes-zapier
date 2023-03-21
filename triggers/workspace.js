@@ -7,6 +7,10 @@ const fetchActorWorkspaces = async (z, bundle) => {
     url: `https://cloud.steampipe.io/api/latest/actor/workspace`,
   });
   const items = z.JSON.parse(response.content)?.items;
+  return items.map((obj, i) => {
+    obj.handle = `${obj.identity.handle}/${obj.handle}`
+    return obj
+  });
 
   return items;
 };

@@ -3,21 +3,22 @@ const sample = require("../samples/sample_query");
 
 const triggerQuery = async (z, bundle) => {
 
-  // List all the workspaces the actor has access to
-  const listWorkspacesResponse = await z.request({
-    method: "GET",
-    url: `https://cloud.steampipe.io/api/latest/actor/workspace`,
-  });
-  const workspaces = z.JSON.parse(listWorkspacesResponse.content)?.items;
+  // Extract the actor handle and workspace handle from the given input, e.g. acme/myworkspace
+  let splitWorkspaceHandle = bundle.inputData.workspace_handle.split("/")
+  if (splitWorkspaceHandle.length < 1) {
+    return
+  }
+  let identityHandle = splitWorkspaceHandle[0]
+  let workspaceHandle = splitWorkspaceHandle[1]
 
-  // Get the metadata of the workspace requested
-  let workspaceHandle = bundle.inputData.workspace_handle
-  let workspace = _.find(workspaces, function(o) { return o.handle == workspaceHandle; });
-  z.console.log('Workspace info: ', workspace)
+  // If the actor handle in the given input field matches with the current authenticated actor handle, then
+  // the selected workspace is a user workspace
+  // else, it is an organization workspace.
+  let workspaceType = identityHandle == bundle.authData.handle ? "user" : "org"
 
   // Create the URL to to perform a query in a user/organization workspace
   const spcUrl = new URL('https://cloud.steampipe.io/');
-  spcUrl.pathname = `api/latest/${workspace.identity.type}/${workspace.identity.handle}/workspace/${bundle.inputData.workspace_handle}/query`;
+  spcUrl.pathname = `api/latest/${workspaceType}/${identityHandle}/workspace/${workspaceHandle}/query`;
 
   spcUrl.searchParams.append("sql", bundle.inputData.query)
   const response = await z.request({
@@ -53,7 +54,7 @@ module.exports = {
 
   display: {
     label: "Query",
-    description: "Triggers when a SQL query finds unique records.",
+    description: "Triggered when new rows are returned by a custom query that you provide.",
   },
 
   operation: {
@@ -71,7 +72,7 @@ module.exports = {
         required: true,
         label: 'Query',
         placeholder: 'select * from cloud;',
-        helpText: 'Your SQL query',
+        helpText: 'Query results must have a unique id field so we can deduplicate records properly! Otherwise we will make a best guess. You must also include desired ordering and limiting in the query. **Note**: This query must run in less than 30 seconds and return no more than 3,000 rows.',
       }
     ],
     perform: triggerQuery,
