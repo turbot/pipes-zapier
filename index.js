@@ -1,3 +1,4 @@
+const querySearch = require('./searches/query');
 const queryTrigger = require('./triggers/query');
 const workspaceTrigger = require('./triggers/workspace');
 const authentication = require('./authentication');
@@ -36,7 +37,7 @@ const App = {
 
   // If you want your searches to show up, you better include it here!
   searches: {
-    // [queryTrigger.key]: queryTrigger,
+    [querySearch.key]: querySearch,
   },
 
   // If you want your creates to show up, you better include it here!

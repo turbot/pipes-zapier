@@ -1,7 +1,7 @@
 const _ = require("lodash");
 const sample = require("../samples/sample_query");
 
-const triggerQuery = async (z, bundle) => {
+const searchQuery = async (z, bundle) => {
 
   // List all the workspaces the actor has access to
   const listWorkspacesResponse = await z.request({
@@ -50,8 +50,8 @@ module.exports = {
   noun: "Query",
 
   display: {
-    label: "New Row (Custom Query)",
-    description: "Triggered when new rows are returned by a custom query that you provide.",
+    label: "Find Row via Custom Query",
+    description: "Finds a row in a table via a custom query that you provide.",
   },
 
   operation: {
@@ -68,11 +68,10 @@ module.exports = {
         type: 'string',
         required: true,
         label: 'Query',
-        placeholder: 'select * from cloud;',
-        helpText: 'Query results must have a unique id field so we can deduplicate records properly! Otherwise we will make a best guess. You must also include desired ordering and limiting in the query. **Note**: This query must run in less than 30 seconds and return no more than 3,000 rows.',
+        helpText: 'You should include desired ordering and limiting (usually to 1 record) in the query. **Note**: This query must run in less than 30 seconds.'
       }
     ],
-    perform: triggerQuery,
+    perform: searchQuery,
     sample: sample,
   },
 };
