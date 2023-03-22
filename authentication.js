@@ -9,7 +9,7 @@ const authentication = {
       type: 'string',
       required: true,
       label: 'Token',
-      helpText: 'Your Steampipe Cloud [API token](https://steampipe.io/docs/cloud/profile#api-tokens).',
+      helpText: 'Your Steampipe Cloud [API token](https://steampipe.io/docs/cloud/profile#tokens).',
     },
     {
       key: "cloud_host",

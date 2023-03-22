@@ -12,8 +12,7 @@ describe("query search", () => {
   it("should find a record", (done) => {
     const bundle = {
       authData: {
-        token: process.env.STEAMPIPE_CLOUD_TOKEN,
-        handle: process.env.STEAMPIPE_USER_HANDLE
+        token: process.env.STEAMPIPE_CLOUD_TOKEN
       },
       inputData: {
         workspace_handle: process.env.STEAMPIPE_WORKSPACE,
