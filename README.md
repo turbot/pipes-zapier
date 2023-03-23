@@ -1,5 +1,7 @@
-# steampipe-cloud-zapier
+# Steampipe Cloud Zapier Integration
 
-An example app that helps kickstart your journey as a Zapier [developer](https://zapier.com/developer/). Once logged in, you can see the tutorial itself [here](https://zapier.com/developer/start/introduction).
+[Zapier](https://zapier.com/) is a web-based platform for creating automated, no-code workflows. Zapier interacts with other applications and services via Integrations.
 
-You can learn more about the CLI [here](https://github.com/zapier/zapier-platform-cli).
+Steampipe Cloud integration will allow the Steampipe Cloud users to leverage their Steampipe Cloud Workspaces in their Zapier workflows.
+
+If you have any questions, join our [Slack Community](https://steampipe.io/community/join) and ask away!

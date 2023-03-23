@@ -9,7 +9,7 @@ const appTester = zapier.createAppTester(App);
 describe("query search", () => {
   zapier.tools.env.inject();
 
-  it("should find a record", (done) => {
+  it("should find a matching row", (done) => {
     const bundle = {
       authData: {
         token: process.env.STEAMPIPE_CLOUD_TOKEN
