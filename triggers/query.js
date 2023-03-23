@@ -51,7 +51,7 @@ module.exports = {
 
   display: {
     label: "New Row (Custom Query)",
-    description: "Triggered when new rows are returned by a custom query that you provide.",
+    description: "Triggers when new rows are returned by a custom query that you provide.",
   },
 
   operation: {
