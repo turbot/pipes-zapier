@@ -2,11 +2,30 @@ const querySearch = require('./searches/query');
 const queryTrigger = require('./triggers/query');
 const workspaceTrigger = require('./triggers/workspace');
 const authentication = require('./authentication');
-const { handleHTTPError } = require('./triggers/error-handler');
 
 const addApiKeyToHeader = (request, z, bundle) => {
   request.headers.Authorization = `Bearer ${bundle.authData.token}`;
   return request;
+};
+
+const handleHTTPError = (response, z) => {
+
+  if (response.status === 401) {
+    throw new z.errors.RefreshAuthError(response.json.detail, response.json.status);
+  }
+  if (response.status === 403) {
+    throw new z.errors.HaltedError(response.json.detail, response.json.status);
+  }
+  else if (response.status === 429) {
+    throw new ThrottledError(response.json.detail, 600);
+  }
+  else if (response.status === 500) {
+    throw new z.errors.HaltedError(response.json.detail, response.json.status);
+  }
+  else if (response.status >= 400) {
+    throw new z.errors.Error(response.json.detail, response.json.status);
+  }
+  return response;
 };
 
 const App = {
