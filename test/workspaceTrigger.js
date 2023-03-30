@@ -12,7 +12,8 @@ describe("workspace trigger", () => {
   it("should get a workspace", (done) => {
     const bundle = {
       authData: {
-        token: process.env.STEAMPIPE_CLOUD_TOKEN
+        token: process.env.STEAMPIPE_CLOUD_TOKEN,
+        cloud_host: process.env.STEAMPIPE_CLOUD_HOST
       },
       inputData: {},
     };

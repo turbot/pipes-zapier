@@ -16,7 +16,7 @@ const authentication = {
       type: "string",
       required: false,
       label: 'Cloud Host',
-      default: 'cloud.steampipe.io',
+      default: 'https://cloud.steampipe.io',
       helpText: "Your Steampipe Cloud [Host](https://steampipe.io/docs/reference/env-vars/steampipe_cloud_host).",
     }
   ],

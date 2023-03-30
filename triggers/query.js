@@ -3,10 +3,13 @@ const sample = require("../samples/sample_query");
 
 const triggerQuery = async (z, bundle) => {
 
+  const spcUrl = new URL(bundle.authData.cloud_host);
+
   // List all the workspaces the actor has access to
+  spcUrl.pathname = "api/latest/actor/workspace"
   const listWorkspacesResponse = await z.request({
     method: "GET",
-    url: `https://cloud.steampipe.io/api/latest/actor/workspace`,
+    url: spcUrl.href,
   });
   const workspaces = z.JSON.parse(listWorkspacesResponse.content)?.items;
 
@@ -14,7 +17,6 @@ const triggerQuery = async (z, bundle) => {
   let matchedWorkspace = _.find(workspaces, function(o) { return `${o.identity.handle}/${o.handle}` == bundle.inputData.workspace_handle; });
 
   // Create the URL to to perform a query in a user/organization workspace
-  const spcUrl = new URL('https://cloud.steampipe.io/');
   spcUrl.pathname = `api/latest/${matchedWorkspace.identity.type}/${matchedWorkspace.identity.handle}/workspace/${matchedWorkspace.handle}/query`;
 
   spcUrl.searchParams.append("sql", bundle.inputData.query)
@@ -69,7 +71,7 @@ module.exports = {
         required: true,
         label: 'Query',
         placeholder: 'select * from cloud;',
-        helpText: 'Query results must have a unique id field so we can deduplicate records properly! Otherwise we will make a best guess. You must also include desired ordering and limiting in the query. **Note**: This query must run in less than 30 seconds and return no more than 3,000 rows.',
+        helpText: 'Query results must have a unique ID field so we can deduplicate records properly! Otherwise we will make a best guess. You must also include desired ordering and limiting in the query. **Note**: This query must run in less than 30 seconds and return no more than 3,000 rows.',
       }
     ],
     perform: triggerQuery,

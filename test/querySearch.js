@@ -12,7 +12,8 @@ describe("query search", () => {
   it("should find a matching row", (done) => {
     const bundle = {
       authData: {
-        token: process.env.STEAMPIPE_CLOUD_TOKEN
+        token: process.env.STEAMPIPE_CLOUD_TOKEN,
+        cloud_host: process.env.STEAMPIPE_CLOUD_HOST
       },
       inputData: {
         workspace_handle: process.env.STEAMPIPE_WORKSPACE,
