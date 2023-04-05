@@ -4,47 +4,63 @@ const sample = require("../samples/sample_query");
 const triggerQuery = async (z, bundle) => {
 
   const spcUrl = new URL(bundle.authData.cloud_host);
-
-  // List all the workspaces the actor has access to
   spcUrl.pathname = "api/latest/actor/workspace"
-  const listWorkspacesResponse = await z.request({
-    method: "GET",
+
+  const listActorWorkspaces = z.request({
     url: spcUrl.href,
-  });
-  const workspaces = z.JSON.parse(listWorkspacesResponse.content)?.items;
-
-  // Get the metadata of the workspace requested
-  let matchedWorkspace = _.find(workspaces, function(o) { return `${o.identity.handle}/${o.handle}` == bundle.inputData.workspace_handle; });
-
-  // Create the URL to to perform a query in a user/organization workspace
-  spcUrl.pathname = `api/latest/${matchedWorkspace.identity.type}/${matchedWorkspace.identity.handle}/workspace/${matchedWorkspace.handle}/query`;
-
-  spcUrl.searchParams.append("sql", bundle.inputData.query)
-  const response = await z.request({
-    method: "POST",
-    url: spcUrl.href,
+    method: 'GET',
   });
 
-  const items = z.JSON.parse(response.content)?.items;
+  const queryResponse = listActorWorkspaces.then(workspaceResponse => {
+    const workspaces = z.JSON.parse(workspaceResponse.content)?.items;
 
-  if (items == null) {
-    z.console.log('Got Empty Response')
-    return [];
-  }
-  z.console.log('Response size: ', items.length)
+    // Get the metadata of the workspace requested
+    let matchedWorkspace = _.find(workspaces, function(o) { return `${o.identity.handle}/${o.handle}` == bundle.inputData.workspace_handle; });
 
-  // Query results must have a unique id field so that we can deduplicate records properly
-  return items.map((obj, i) => {
-    if (obj.id != null) {
-      return obj;
+    // Create the URL to to perform a query in a user/organization workspace
+    spcUrl.pathname = `api/latest/${matchedWorkspace.identity.type}/${matchedWorkspace.identity.handle}/workspace/${matchedWorkspace.handle}/query`;
+
+    return z.request({
+      url: spcUrl.href,
+      method: 'POST',
+      body: {
+        sql: bundle.inputData.query,
+      },
+    });
+  });
+
+  const timeoutPromise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject(new Error('Trigger timeout exceeded.'));
+    }, 28000); // Set a timeout of 28 seconds
+  });
+
+  try {
+    // Wait for either queryResponse or timeoutPromise to resolve or reject, whichever happens first.
+    // If queryResponse resolves first, return the response; else
+    // throw an error for the timeout with the custom error message.
+    const result = await Promise.race([queryResponse, timeoutPromise]);
+
+    const items = z.JSON.parse(result.content)?.items;
+    if (items == null) {
+      return [];
     }
 
-    let hash = z.hash('md5', z.JSON.stringify(obj))
-    return {
-      ...obj,
-      id: hash,
-    };
-  });
+    // Query results must have a unique id field so that we can deduplicate records properly
+    return items.map((obj, i) => {
+      if (obj.id != null) {
+        return obj;
+      }
+
+      let hash = z.hash('md5', z.JSON.stringify(obj))
+      return {
+        ...obj,
+        id: hash,
+      };
+    });
+  } catch (error) {
+    throw error;
+  }
 };
 
 module.exports = {

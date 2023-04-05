@@ -20,7 +20,7 @@ describe("query search", () => {
         query: "select arn, name from aws_s3_bucket where name = 'abhi-demo-bucket-04112019';"
       },
     };
-    appTester(App.triggers.query.operation.perform, bundle)
+    appTester(App.searches.query.operation.perform, bundle)
       .then((response) => {
         response.should.be.an.instanceOf(Array);
         done();

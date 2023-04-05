@@ -28,10 +28,8 @@ const searchQuery = async (z, bundle) => {
   const items = z.JSON.parse(response.content)?.items;
 
   if (items == null) {
-    z.console.log('Got Empty Response')
     return [];
   }
-  z.console.log('Response size: ', items.length)
 
   // Query results must have a unique id field so that we can deduplicate records properly
   return items.map((obj, i) => {
