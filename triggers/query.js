@@ -6,45 +6,33 @@ const triggerQuery = async (z, bundle) => {
   const spcUrl = new URL(bundle.authData.cloud_host);
   spcUrl.pathname = "api/latest/actor/workspace"
 
-  const listActorWorkspaces = z.request({
+  const listActorWorkspaces = await z.request({
     url: spcUrl.href,
     method: 'GET',
   });
 
-  const queryResponse = listActorWorkspaces.then(workspaceResponse => {
-    const workspaces = z.JSON.parse(workspaceResponse.content)?.items;
+  const workspaces = z.JSON.parse(listActorWorkspaces.content)?.items;
 
-    // Get the metadata of the workspace requested
-    let matchedWorkspace = _.find(workspaces, function(o) { return `${o.identity.handle}/${o.handle}` == bundle.inputData.workspace_handle; });
+  // Get the metadata of the workspace requested
+  let matchedWorkspace = _.find(workspaces, function(o) { return `${o.identity.handle}/${o.handle}` == bundle.inputData.workspace_handle; });
 
-    // Create the URL to to perform a query in a user/organization workspace
-    spcUrl.pathname = `api/latest/${matchedWorkspace.identity.type}/${matchedWorkspace.identity.handle}/workspace/${matchedWorkspace.handle}/query`;
+  // Create the URL to to perform a query in a user/organization workspace
+  spcUrl.pathname = `api/latest/${matchedWorkspace.identity.type}/${matchedWorkspace.identity.handle}/workspace/${matchedWorkspace.handle}/query`;
 
-    return z.request({
-      url: spcUrl.href,
-      method: 'POST',
-      body: {
-        sql: bundle.inputData.query,
-      },
-    });
-  });
+  const callbackUrl = z.generateCallbackUrl();
 
-  const timeoutPromise = new Promise((resolve, reject) => {
-    setTimeout(() => {
-      reject(new Error('Trigger timeout exceeded.'));
-    }, 28000); // Set a timeout of 28 seconds
-  });
+  const options = {
+    url: spcUrl.href,
+    method: 'POST',
+    body: {
+      sql: bundle.inputData.query,
+    },
+    callbackUrl: callbackUrl
+  };
 
-  try {
-    // Wait for either queryResponse or timeoutPromise to resolve or reject, whichever happens first.
-    // If queryResponse resolves first, return the response; else
-    // throw an error for the timeout with the custom error message.
-    const result = await Promise.race([queryResponse, timeoutPromise]);
-
-    const items = z.JSON.parse(result.content)?.items;
-    if (items == null) {
-      return [];
-    }
+  return z.request(options)
+  .then(response => {
+    const items = z.JSON.parse(response.content)?.items;
 
     // Query results must have a unique id field so that we can deduplicate records properly
     return items.map((obj, i) => {
@@ -58,9 +46,10 @@ const triggerQuery = async (z, bundle) => {
         id: hash,
       };
     });
-  } catch (error) {
+  })
+  .catch(error => {
     throw error;
-  }
+  });
 };
 
 module.exports = {
