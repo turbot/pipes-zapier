@@ -45,6 +45,10 @@ const triggerQuery = async (z, bundle) => {
     // throw an error for the timeout with the custom error message.
     const result = await Promise.race([queryResponse, timeoutPromise]);
 
+    if (result instanceof Error) {
+      throw result
+    }
+
     const items = z.JSON.parse(result.content)?.items;
     if (items == null) {
       return [];
