@@ -36,7 +36,7 @@ const triggerQuery = async (z, bundle) => {
   const timeoutPromise = new Promise((resolve, reject) => {
     setTimeout(() => {
       reject(new Error("!!!!!!Trigger timeout exceeded!!!!!!"));
-    }, 15000); // Set a timeout of 15 seconds
+    }, 25000); // Set a timeout of 25 seconds
   });
 
   try {
