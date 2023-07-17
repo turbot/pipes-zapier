@@ -9,26 +9,24 @@ const addApiKeyToHeader = (request, z, bundle) => {
 };
 
 const handleHTTPError = (response, z) => {
-
-  if (response.status === 401) {
-    throw new z.errors.RefreshAuthError(response.json.detail, response.json.status);
+  switch (response.status) {
+    case 401: // re-authentication required
+      throw new z.errors.RefreshAuthError(response.json.detail);
+    case 403: // credentials need changing
+      throw new z.errors.ExpiredAuthError(response.json.detail);
+    case 408: // request timed out
+    case 500: // general server error
+    case 504: // gateway timed out
+      throw new z.errors.HaltedError(response.json.detail);
+    case 429: // rate limited
+      throw new z.errors.ThrottledError(response.json.detail, 60);
+    default:
+      if (response.status >= 200 && response.status < 300) {
+        return response;
+      } else {
+        throw new z.errors.Error(response.json.detail, 'err' ,response.json.status);
+      }
   }
-  if (response.status === 403) {
-    throw new z.errors.HaltedError(response.json.detail, response.json.status);
-  }
-  else if (response.status === 429) {
-    throw new ThrottledError(response.json.detail, 600);
-  }
-  else if (response.status === 500) {
-    throw new z.errors.HaltedError(response.json.detail, response.json.status);
-  }
-  else if (response.status === 504) {
-    throw new z.errors.Error(response.json.detail, response.json.status);
-  }
-  else if (response.status >= 400) {
-    throw new z.errors.Error(response.json.detail, response.json.status);
-  }
-  return response;
 };
 
 const App = {

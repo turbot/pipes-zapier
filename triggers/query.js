@@ -46,7 +46,7 @@ const triggerQuery = async (z, bundle) => {
     const result = await Promise.race([queryResponse, timeoutPromise]);
 
     if (result instanceof Error) {
-      throw result
+      return new z.errors.HaltedError(result.message)
     }
 
     const items = z.JSON.parse(result.content)?.items;
