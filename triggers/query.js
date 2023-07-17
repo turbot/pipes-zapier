@@ -21,7 +21,7 @@ const triggerQuery = async (z, bundle) => {
       );
     });
 
-    // Create the URL to to perform a query in a user/organization workspace
+    // Create the URL to perform a query in a user/organization workspace
     spcUrl.pathname = `api/latest/${matchedWorkspace.identity.type}/${matchedWorkspace.identity.handle}/workspace/${matchedWorkspace.handle}/query`;
 
     return z.request({
