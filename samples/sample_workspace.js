@@ -25,7 +25,7 @@ module.exports = {
     id: 'u_a1bc2def3ghi45j67klm',
     type: 'user',
     handle: 'dummyuser01',
-    display_name: 'Steampipe User'
+    display_name: 'Pipes User'
   },
   role: 'owner'
 };

@@ -3,11 +3,11 @@ const sample = require("../samples/sample_query");
 
 const triggerQuery = async (z, bundle) => {
 
-  const spcUrl = new URL(bundle.authData.cloud_host);
-  spcUrl.pathname = "api/latest/actor/workspace";
+  const pipesUrl = new URL(bundle.authData.cloud_host);
+  pipesUrl.pathname = "api/latest/actor/workspace";
 
   const listActorWorkspaces = z.request({
-    url: spcUrl.href,
+    url: pipesUrl.href,
     method: "GET",
   });
 
@@ -22,10 +22,10 @@ const triggerQuery = async (z, bundle) => {
     });
 
     // Create the URL to perform a query in a user/organization workspace
-    spcUrl.pathname = `api/latest/${matchedWorkspace.identity.type}/${matchedWorkspace.identity.handle}/workspace/${matchedWorkspace.handle}/query`;
+    pipesUrl.pathname = `api/latest/${matchedWorkspace.identity.type}/${matchedWorkspace.identity.handle}/workspace/${matchedWorkspace.handle}/query`;
 
     return z.request({
-      url: spcUrl.href,
+      url: pipesUrl.href,
       method: "POST",
       body: {
         sql: bundle.inputData.query,
@@ -88,7 +88,7 @@ module.exports = {
         required: true,
         label: "Workspace",
         helpText:
-          "The Steampipe Cloud [Workspace](https://steampipe.io/docs/cloud/workspaces) to connect to.",
+          "The Turbot Pipes [Workspace](https://turbot.com/pipes/docs/workspaces) to connect to.",
         dynamic: "workspace.name",
       },
       {

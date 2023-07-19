@@ -1,8 +1,7 @@
-# Steampipe Cloud Zapier Integration
+# Turbot Pipes Zapier Integration
 
 - Zapier: https://zapier.com
-- Steampipe: https://steampipe.io
-- Steampipe Cloud: https://cloud.steampipe.io
+- Turbot Pipes: https://pipes.turbot.com
 - Community: [Steampipe Slack](https://steampipe.io/community/join)
 
 ## Developing
@@ -22,7 +21,7 @@ zapier login
 
 Clone:
 
-To clone the Steampipe Cloud app and load its node project modules, execute the following commands in your terminal:
+To clone the Turbot Pipes app and load its node project modules, execute the following commands in your terminal:
 
 ```sh
 git clone https://github.com/turbot/steampipe-cloud-zapier.git

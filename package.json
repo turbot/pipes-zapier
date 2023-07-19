@@ -1,9 +1,9 @@
 {
-  "name": "steampipe-cloud-zapier",
+  "name": "turbot-pipes-zapier",
   "version": "0.0.5",
-  "description": "Steampipe Cloud app for the Zapier platform.",
+  "description": "Turbot Pipes app for the Zapier platform.",
   "repository": "turbot/steampipe-cloud-zapier",
-  "homepage": "https://cloud.steampipe.io",
+  "homepage": "https://pipes.turbot.com",
   "author": "Turbot HQ, Inc <steampipe+zapier@turbot.com>",
   "license": "Apache-2",
   "main": "index.js",

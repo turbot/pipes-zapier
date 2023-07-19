@@ -3,12 +3,12 @@ const URL = require('url').URL
 
 // List all the workspaces the user has access to
 const fetchActorWorkspaces = async (z, bundle) => {
-  const spcUrl = new URL(bundle.authData.cloud_host);
-  spcUrl.pathname = "api/latest/actor/workspace"
+  const pipesUrl = new URL(bundle.authData.cloud_host);
+  pipesUrl.pathname = "api/latest/actor/workspace"
 
   const response = await z.request({
     method: "GET",
-    url: spcUrl.href,
+    url: pipesUrl.href,
   });
 
   const items = z.JSON.parse(response.content)?.items;

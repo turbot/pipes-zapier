@@ -1,7 +1,7 @@
 const authentication = {
   type: "custom",
   test: {
-    url: "https://cloud.steampipe.io/api/latest/actor",
+    url: "https://pipes.turbot.com/api/latest/actor",
   },
   fields: [
     {
@@ -9,15 +9,15 @@ const authentication = {
       type: 'string',
       required: true,
       label: 'Token',
-      helpText: 'Your Steampipe Cloud [API token](https://steampipe.io/docs/cloud/profile#tokens).',
+      helpText: 'Your Turbot Pipes [API token](https://turbot.com/pipes/docs/profile#tokens).',
     },
     {
       key: "cloud_host",
       type: "string",
       required: false,
       label: 'Cloud Host',
-      default: 'https://cloud.steampipe.io',
-      helpText: "Your Steampipe Cloud [Host](https://steampipe.io/docs/reference/env-vars/steampipe_cloud_host).",
+      default: 'https://pipes.turbot.com',
+      helpText: "Your Turbot Pipes Host.",
     }
   ],
   connectionLabel: '{{display_name}} - {{handle}}'

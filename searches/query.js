@@ -3,26 +3,26 @@ const sample = require("../samples/sample_query");
 
 const searchQuery = async (z, bundle) => {
 
-  const spcUrl = new URL(bundle.authData.cloud_host);
+  const pipesUrl = new URL(bundle.authData.cloud_host);
 
   // List all the workspaces the actor has access to
-  spcUrl.pathname = "api/latest/actor/workspace"
+  pipesUrl.pathname = "api/latest/actor/workspace"
   const listWorkspacesResponse = await z.request({
     method: "GET",
-    url: spcUrl.href,
+    url: pipesUrl.href,
   });
   const workspaces = z.JSON.parse(listWorkspacesResponse.content)?.items;
 
   // Get the metadata of the workspace requested
   let matchedWorkspace = _.find(workspaces, function(o) { return `${o.identity.handle}/${o.handle}` == bundle.inputData.workspace_handle; });
 
-  // Create the URL to to perform a query in a user/organization workspace
-  spcUrl.pathname = `api/latest/${matchedWorkspace.identity.type}/${matchedWorkspace.identity.handle}/workspace/${matchedWorkspace.handle}/query`;
+  // Create the URL to perform a query in a user/organization workspace
+  pipesUrl.pathname = `api/latest/${matchedWorkspace.identity.type}/${matchedWorkspace.identity.handle}/workspace/${matchedWorkspace.handle}/query`;
 
-  spcUrl.searchParams.append("sql", bundle.inputData.query)
+  pipesUrl.searchParams.append("sql", bundle.inputData.query)
   const response = await z.request({
     method: "POST",
-    url: spcUrl.href,
+    url: pipesUrl.href,
   });
 
   const items = z.JSON.parse(response.content)?.items;
@@ -60,7 +60,7 @@ module.exports = {
         key: 'workspace_handle',
         required: true,
         label: 'Workspace',
-        helpText: 'The Steampipe Cloud [Workspace](https://steampipe.io/docs/cloud/workspaces) to connect to.',
+        helpText: 'The Turbot Pipes [Workspace](https://turbot.com/pipes/docs/workspaces) to connect to.',
         dynamic: 'workspace.name'
       },
       {

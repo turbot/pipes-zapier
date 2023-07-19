@@ -12,11 +12,11 @@ describe("query search", () => {
   it("should find a matching row", (done) => {
     const bundle = {
       authData: {
-        token: process.env.STEAMPIPE_CLOUD_TOKEN,
-        cloud_host: process.env.STEAMPIPE_CLOUD_HOST
+        token: process.env.TURBOT_PIPES_TOKEN,
+        cloud_host: process.env.TURBOT_PIPES_HOST
       },
       inputData: {
-        workspace_handle: process.env.STEAMPIPE_WORKSPACE,
+        workspace_handle: process.env.TURBOT_PIPES_WORKSPACE,
         query: "select arn, name from aws_s3_bucket where name = 'abhi-demo-bucket-04112019';"
       },
     };
