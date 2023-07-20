@@ -1,8 +1,8 @@
 {
   "name": "turbot-pipes-zapier",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Turbot Pipes app for the Zapier platform.",
-  "repository": "turbot/steampipe-cloud-zapier",
+  "repository": "turbot/pipes-zapier",
   "homepage": "https://pipes.turbot.com",
   "author": "Turbot HQ, Inc <steampipe+zapier@turbot.com>",
   "license": "Apache-2",

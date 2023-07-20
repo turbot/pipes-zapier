@@ -2,7 +2,7 @@
 
 - Zapier: https://zapier.com
 - Turbot Pipes: https://pipes.turbot.com
-- Community: [Steampipe Slack](https://steampipe.io/community/join)
+- Community: [Join us on Slack](https://turbot.com/community/join)
 
 ## Developing
 
@@ -24,8 +24,8 @@ Clone:
 To clone the Turbot Pipes app and load its node project modules, execute the following commands in your terminal:
 
 ```sh
-git clone https://github.com/turbot/steampipe-cloud-zapier.git
-cd steampipe-cloud-zapier
+git clone https://github.com/turbot/pipes-zapier.git
+cd pipes-zapier
 npm install
 ```
 
