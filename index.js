@@ -8,23 +8,29 @@ const addApiKeyToHeader = (request, z, bundle) => {
   return request;
 };
 
-const handleHTTPError = (response, z) => {
+/*
+As per https://platform.zapier.com/publish/integration-publishing-guidelines
+updated to friendly error messages as opposed to generic API text - if we need to
+revert, swap to `response.json.detail`.
+*/
+const responseHandler = (response, z) => {
   switch (response.status) {
     case 401: // re-authentication required
-      throw new z.errors.RefreshAuthError(response.json.detail);
+      throw new z.errors.RefreshAuthError('Authentication required, please ensure your token is valid and set correctly.');
     case 403: // credentials need changing
-      throw new z.errors.ExpiredAuthError(response.json.detail);
+      throw new z.errors.ExpiredAuthError('Credentials invalid, please regenerate a new token.');
     case 408: // request timed out
-    case 500: // general server error
     case 504: // gateway timed out
-      throw new z.errors.HaltedError(response.json.detail);
+      throw new z.errors.HaltedError('Request exceeded timeout, please update to ensure successful completion.');
+    case 500: // general server error
+      throw new z.errors.Error(response.json.detail, 'err', response.json.status);
     case 429: // rate limited
-      throw new z.errors.ThrottledError(response.json.detail, 60);
+      throw new z.errors.ThrottledError('Rate-Limit exceeded, retrying in 60 seconds.', 60);
     default:
       if (response.status >= 200 && response.status < 300) {
         return response;
       } else {
-        throw new z.errors.Error(response.json.detail, 'err' ,response.json.status);
+        throw new z.errors.Error(response.json.detail, 'err', response.json.status);
       }
   }
 };
@@ -42,7 +48,7 @@ const App = {
   ],
 
   afterResponse: [
-    handleHTTPError
+    responseHandler
   ],
 
   // If you want to define optional resources to simplify creation of triggers, searches, creates - do that here!

@@ -52,6 +52,7 @@ module.exports = {
   display: {
     label: "Find Row via Custom Query",
     description: "Finds a row in a table via a custom query that you provide.",
+    important: true,
   },
 
   operation: {
