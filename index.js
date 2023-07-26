@@ -21,7 +21,7 @@ const responseHandler = (response, z) => {
       throw new z.errors.ExpiredAuthError('Credentials invalid, please regenerate a new token.');
     case 408: // request timed out
     case 504: // gateway timed out
-      throw new z.errors.HaltedError('Request exceeded timeout, please update to ensure successful completion.');
+      throw new z.errors.HaltedError('Request exceeded timeout.');
     case 500: // general server error
       throw new z.errors.Error(response.json.detail, 'err', response.json.status);
     case 429: // rate limited
