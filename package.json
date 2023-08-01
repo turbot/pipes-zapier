@@ -1,7 +1,7 @@
 {
   "name": "turbot-pipes-zapier",
-  "version": "0.0.6",
-  "description": "Turbot Pipes is a fully managed SaaS platform for hosting Steampipe instances.",
+  "version": "0.0.7",
+  "description": "Turbot Pipes is the only intelligence, automation & security platform built specifically for DevOps.",
   "repository": "turbot/pipes-zapier",
   "homepage": "https://pipes.turbot.com",
   "author": "Turbot HQ, Inc <steampipe+zapier@turbot.com>",
