@@ -52,7 +52,6 @@ module.exports = {
   display: {
     label: "Find Row via Custom Query",
     description: "Finds a row in a table via a custom query that you provide.",
-    important: true,
   },
 
   operation: {
@@ -69,7 +68,7 @@ module.exports = {
         type: 'string',
         required: true,
         label: 'Query',
-        helpText: 'You should include desired ordering and limiting (usually to 1 record) in the query. **Note**: This query must run in less than 30 seconds.'
+        helpText: 'You should include desired ordering and limiting (usually to 1 record) in the query. **Note**: This query must run in less than 30 seconds and return no more than 3,000 rows.'
       }
     ],
     perform: searchQuery,

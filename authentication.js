@@ -17,7 +17,7 @@ const authentication = {
       required: false,
       label: 'Cloud Host',
       default: 'https://pipes.turbot.com',
-      helpText: "Your Turbot Pipes Host.",
+      helpText: "Your Turbot Pipes [Host](https://pipes.turbot.com/).",
     }
   ],
   connectionLabel: '{{display_name}} - {{handle}}'

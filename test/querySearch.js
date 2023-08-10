@@ -17,7 +17,7 @@ describe("query search", () => {
       },
       inputData: {
         workspace_handle: process.env.STEAMPIPE_WORKSPACE,
-        query: "select arn, name from aws_s3_bucket where name = 'abhi-demo-bucket-04112019';"
+        query: "select arn, name from aws_s3_bucket where name = 'zapier-test-20230810';"
       },
     };
     appTester(App.searches.query.operation.perform, bundle)
